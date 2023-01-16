@@ -22,19 +22,19 @@ class Pterodactyl
     public static function client()
     {
         return Http::withHeaders([
-            'Authorization' => 'Bearer '.config('SETTINGS::SYSTEM:PTERODACTYL:TOKEN'),
+            'Authorization' => 'Bearer '.$settings->system->pterodactyl->token,
             'Content-type' => 'application/json',
             'Accept' => 'Application/vnd.pterodactyl.v1+json',
-        ])->baseUrl(config('SETTINGS::SYSTEM:PTERODACTYL:URL').'/api');
+        ])->baseUrl($settings->system->pterodactyl->url.'/api');
     }
 
     public static function clientAdmin()
     {
         return Http::withHeaders([
-            'Authorization' => 'Bearer '.config('SETTINGS::SYSTEM:PTERODACTYL:ADMIN_USER_TOKEN'),
+            'Authorization' => 'Bearer '.$settings->system->pterodactyl->admin_user_token,
             'Content-type' => 'application/json',
             'Accept' => 'Application/vnd.pterodactyl.v1+json',
-        ])->baseUrl(config('SETTINGS::SYSTEM:PTERODACTYL:URL').'/api');
+        ])->baseUrl($settings->system->pterodactyl->url.'/api');
     }
 
     /**
@@ -70,7 +70,7 @@ class Pterodactyl
     public static function getEggs(Nest $nest)
     {
         try {
-            $response = self::client()->get("/application/nests/{$nest->id}/eggs?include=nest,variables&per_page=".config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT'));
+            $response = self::client()->get("/application/nests/{$nest->id}/eggs?include=nest,variables&per_page=".$settings->system->pterodactyl->per_page_limit);
         } catch (Exception $e) {
             throw self::getException($e->getMessage());
         }
@@ -89,7 +89,7 @@ class Pterodactyl
     public static function getNodes()
     {
         try {
-            $response = self::client()->get('/application/nodes?per_page='.config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT'));
+            $response = self::client()->get('/application/nodes?per_page='.$settings->system->pterodactyl->per_page_limit);
         } catch (Exception $e) {
             throw self::getException($e->getMessage());
         }
@@ -123,7 +123,7 @@ class Pterodactyl
     public static function getServers()
     {
         try {
-            $response = self::client()->get('/application/servers?per_page='.config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT'));
+            $response = self::client()->get('/application/servers?per_page='.$settings->system->pterodactyl->per_page_limit);
         } catch (Exception $e) {
             throw self::getException($e->getMessage());
         }
@@ -142,7 +142,7 @@ class Pterodactyl
     public static function getNests()
     {
         try {
-            $response = self::client()->get('/application/nests?per_page='.config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT'));
+            $response = self::client()->get('/application/nests?per_page='.$settings->system->pterodactyl->per_page_limit);
         } catch (Exception $e) {
             throw self::getException($e->getMessage());
         }
@@ -161,7 +161,7 @@ class Pterodactyl
     public static function getLocations()
     {
         try {
-            $response = self::client()->get('/application/locations?per_page='.config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT'));
+            $response = self::client()->get('/application/locations?per_page='.$settings->system->pterodactyl->per_page_limit);
         } catch (Exception $e) {
             throw self::getException($e->getMessage());
         }
@@ -234,7 +234,7 @@ class Pterodactyl
      */
     public static function url(string $route): string
     {
-        return config('SETTINGS::SYSTEM:PTERODACTYL:URL').$route;
+        return $settings->system->pterodactyl->url.$route;
     }
 
     /**

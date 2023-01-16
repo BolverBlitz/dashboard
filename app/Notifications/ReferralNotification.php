@@ -48,7 +48,7 @@ class ReferralNotification extends Notification
         return [
             'title' => __('Someone registered using your Code!'),
             'content' => '
-                <p>You received '.config('SETTINGS::REFERRAL::REWARD').' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').'</p>
+                <p>You received '.$settings->referral.' '.$settings->system->credits_display_name.'</p>
                 <p>because '.$this->ref_user->name.' registered with your Referral-Code!</p>
                 <p>Thank you very much for supporting us!.</p>
                 <p>'.config('app.name', 'Laravel').'</p>

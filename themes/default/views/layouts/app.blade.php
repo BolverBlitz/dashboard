@@ -31,7 +31,7 @@
     <noscript>
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     </noscript>
-    @if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true')
+    @if ($settings->recaptcha->enabled == 'true')
         {!! htmlScriptTagJsApi() !!}
     @endif
 </head>

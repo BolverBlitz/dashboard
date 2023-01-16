@@ -13,7 +13,7 @@ class SocialiteController extends Controller
 {
     public function redirect()
     {
-        $scopes = ! empty(config('SETTINGS::DISCORD:BOT_TOKEN')) && ! empty(config('SETTINGS::DISCORD:GUILD_ID')) ? ['guilds.join'] : [];
+        $scopes = ! empty($settings->discord->bot_token) && ! empty($settings->discord->guild_id) ? ['guilds.join'] : [];
 
         return Socialite::driver('discord')
             ->scopes($scopes)
@@ -29,9 +29,9 @@ class SocialiteController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $discord = Socialite::driver('discord')->user();
-        $botToken = config('SETTINGS::DISCORD:BOT_TOKEN');
-        $guildId = config('SETTINGS::DISCORD:GUILD_ID');
-        $roleId = config('SETTINGS::DISCORD:ROLE_ID');
+        $botToken = $settings->discord->bot_token;
+        $guildId = $settings->discord->guild_id;
+        $roleId = $settings->discord->role_id;
 
         //save / update discord_users
 
@@ -49,8 +49,8 @@ class SocialiteController extends Controller
             DiscordUser::create(array_merge($discord->user, ['user_id' => Auth::user()->id]));
 
             //update user
-            Auth::user()->increment('credits', config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_DISCORD'));
-            Auth::user()->increment('server_limit', config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_DISCORD'));
+            Auth::user()->increment('credits', $settings->user->credits_reward_after_verify_discord);
+            Auth::user()->increment('server_limit', $settings->user->server_limit_reward_after_verify_discord);
             Auth::user()->update(['discord_verified_at' => now()]);
         } else {
             $user->discordUser->update($discord->user);

@@ -37,7 +37,7 @@
                             @enderror
                         </div>
 
-                        @if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true')
+                        @if ($settings->recaptcha->enabled == 'true')
                             <div class="input-group mb-3">
                                 {!! htmlFormSnippet() !!}
                                 @error('g-recaptcha-response')

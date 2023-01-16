@@ -59,7 +59,7 @@ class LoginController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ];
-        if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true') {
+        if ($settings->recaptcha->enabled == 'true') {
             $validationRules['g-recaptcha-response'] = ['required', 'recaptcha'];
         }
         $request->validate($validationRules);

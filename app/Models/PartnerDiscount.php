@@ -41,6 +41,6 @@ class PartnerDiscount extends Model
             }
         }
 
-        return config('SETTINGS::REFERRAL:PERCENTAGE');
+        return $settings->referral->percentage;
     }
 }

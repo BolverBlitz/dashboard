@@ -81,35 +81,35 @@ class AppServiceProvider extends ServiceProvider
                 config('mail.from.address') != config('SETTINGS:MAIL:FROM_ADDRESS') ||
                 config('mail.from.name') != config('SETTINGS:MAIL:FROM_NAME')
             ) {
-                config(['mail.default' => config('SETTINGS::MAIL:MAILER')]);
+                config(['mail.default' => $settings->mail->mailer]);
                 config(['mail.mailers.smtp' => [
                     'transport' => 'smtp',
-                    'host' => config('SETTINGS::MAIL:HOST'),
-                    'port' => config('SETTINGS::MAIL:PORT'),
-                    'encryption' => config('SETTINGS::MAIL:ENCRYPTION'),
-                    'username' => config('SETTINGS::MAIL:USERNAME'),
-                    'password' => config('SETTINGS::MAIL:PASSWORD'),
+                    'host' => $settings->mail->host,
+                    'port' => $settings->mail->port,
+                    'encryption' => $settings->mail->encryption,
+                    'username' => $settings->mail->username,
+                    'password' => $settings->mail->password,
                     'timeout' => null,
                     'auth_mode' => null,
                 ]]);
-                config(['mail.from' => ['address' => config('SETTINGS::MAIL:FROM_ADDRESS'), 'name' => config('SETTINGS::MAIL:FROM_NAME')]]);
+                config(['mail.from' => ['address' => $settings->mail->from_address, 'name' => $settings->mail->from_name]]);
 
                 Artisan::call('queue:restart');
             }
 
             // Set Recaptcha API Config
             // Load recaptcha package if recaptcha is enabled
-            if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true') {
+            if ($settings->recaptcha->enabled == 'true') {
                 $this->app->register(\Biscolab\ReCaptcha\ReCaptchaServiceProvider::class);
             }
 
             //only update config if recaptcha settings have changed in DB
             if (
-                config('recaptcha.api_site_key') != config('SETTINGS::RECAPTCHA:SITE_KEY') ||
-                config('recaptcha.api_secret_key') != config('SETTINGS::RECAPTCHA:SECRET_KEY')
+                config('recaptcha.api_site_key') != $settings->recaptcha->site_key ||
+                config('recaptcha.api_secret_key') != $settings->recaptcha->secret_key
             ) {
-                config(['recaptcha.api_site_key' => config('SETTINGS::RECAPTCHA:SITE_KEY')]);
-                config(['recaptcha.api_secret_key' => config('SETTINGS::RECAPTCHA:SECRET_KEY')]);
+                config(['recaptcha.api_site_key' => $settings->recaptcha->site_key]);
+                config(['recaptcha.api_secret_key' => $settings->recaptcha->secret_key]);
 
                 Artisan::call('config:clear');
                 Artisan::call('cache:clear');
@@ -130,8 +130,8 @@ class AppServiceProvider extends ServiceProvider
             config(['BRANCHNAME' => $branchname]);
 
             // Set Discord-API Config
-            config(['services.discord.client_id' => config('SETTINGS::DISCORD:CLIENT_ID')]);
-            config(['services.discord.client_secret' => config('SETTINGS::DISCORD:CLIENT_SECRET')]);
+            config(['services.discord.client_id' => $settings->discord->client_id]);
+            config(['services.discord.client_secret' => $settings->discord->client_secret]);
         } catch (Exception $e) {
             error_log('Settings Error: Could not load settings from database. The Installation probably is not done yet.');
             error_log($e);

@@ -40,18 +40,18 @@ class WelcomeMessage extends Notification implements ShouldQueue
     public function AdditionalLines()
     {
         $AdditionalLine = '';
-        if (config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_EMAIL') != 0) {
-            $AdditionalLine .= __('Verifying your e-mail address will grant you ').config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_EMAIL').' '.__('additional').' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').'. <br />';
+        if ($settings->user->credits_reward_after_verify_email != 0) {
+            $AdditionalLine .= __('Verifying your e-mail address will grant you ').$settings->user->credits_reward_after_verify_email.' '.__('additional').' '.$settings->system->credits_display_name.'. <br />';
         }
-        if (config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_EMAIL') != 0) {
-            $AdditionalLine .= __('Verifying your e-mail will also increase your Server Limit by ').config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_EMAIL').'. <br />';
+        if ($settings->user->server_limit_reward_after_verify_email != 0) {
+            $AdditionalLine .= __('Verifying your e-mail will also increase your Server Limit by ').$settings->user->server_limit_reward_after_verify_email.'. <br />';
         }
         $AdditionalLine .= '<br />';
-        if (config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_DISCORD') != 0) {
-            $AdditionalLine .= __('You can also verify your discord account to get another ').config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_DISCORD').' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').'. <br />';
+        if ($settings->user->credits_reward_after_verify_discord != 0) {
+            $AdditionalLine .= __('You can also verify your discord account to get another ').$settings->user->credits_reward_after_verify_discord.' '.$settings->system->credits_display_name.'. <br />';
         }
-        if (config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_DISCORD') != 0) {
-            $AdditionalLine .= __('Verifying your Discord account will also increase your Server Limit by ').config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_DISCORD').'. <br />';
+        if ($settings->user->server_limit_reward_after_verify_discord != 0) {
+            $AdditionalLine .= __('Verifying your Discord account will also increase your Server Limit by ').$settings->user->server_limit_reward_after_verify_discord.'. <br />';
         }
 
         return $AdditionalLine;

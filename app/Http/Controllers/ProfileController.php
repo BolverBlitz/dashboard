@@ -32,9 +32,9 @@ class ProfileController extends Controller
 
         return view('profile.index')->with([
             'user' => Auth::user(),
-            'credits_reward_after_verify_discord' => config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_DISCORD'),
-            'force_email_verification' => config('SETTINGS::USER:FORCE_EMAIL_VERIFICATION'),
-            'force_discord_verification' => config('SETTINGS::USER:FORCE_DISCORD_VERIFICATION'),
+            'credits_reward_after_verify_discord' => $settings->user->credits_reward_after_verify_discord,
+            'force_email_verification' => $settings->user->force_email_verification,
+            'force_discord_verification' => $settings->user->force_discord_verification,
             'badgeColor' => $badgeColor,
         ]);
     }

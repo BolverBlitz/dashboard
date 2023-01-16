@@ -192,7 +192,7 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                @if((config('SETTINGS::REFERRAL::ENABLED') ==true))<!--PartnerDiscount::getDiscount()--->
+                @if(($settings->referral ==true))<!--PartnerDiscount::getDiscount()--->
                     <div class="card card-default">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -202,7 +202,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body py-0 pb-2">
-                            @if((config('SETTINGS::REFERRAL::ALLOWED') == "client" && Auth::user()->role != "member") || config('SETTINGS::REFERRAL::ALLOWED') == "everyone")
+                            @if(($settings->referral == "client" && Auth::user()->role != "member") || $settings->referral == "everyone")
                                 <div class="row">
                                     <div class="mt-3 col-md-8">
                                         <span class="badge badge-success" style="font-size: 14px">
@@ -232,8 +232,8 @@
                                             <tr>
                                                 <td>{{$partnerDiscount->partner_discount}}%</td>
                                                 <td>{{$partnerDiscount->registered_user_discount}}%</td>
-                                                <td>{{config('SETTINGS::REFERRAL::REWARD')}} {{config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME')}}</td>
-                                                <td>{{($partnerDiscount->referral_system_commission==-1)?config('SETTINGS::REFERRAL:PERCENTAGE'):($partnerDiscount->referral_system_commission)}}%</td>
+                                                <td>{{$settings->referral}} {{$settings->system->credits_display_name}}</td>
+                                                <td>{{($partnerDiscount->referral_system_commission==-1)?$settings->referral->percentage:($partnerDiscount->referral_system_commission)}}%</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -249,8 +249,8 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{config('SETTINGS::REFERRAL::REWARD')}} {{config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME')}}</td>
-                                                <td>{{config('SETTINGS::REFERRAL:PERCENTAGE')}}%</td>
+                                                <td>{{$settings->referral}} {{$settings->system->credits_display_name}}</td>
+                                                <td>{{$settings->referral->percentage}}%</td>
                                             </tr>
                                         </tbody>
                                     </table>

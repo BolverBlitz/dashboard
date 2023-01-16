@@ -22,7 +22,7 @@
                     <select id="mailservice" style="width:100%" class="custom-select" name="mailservice" required
                         autocomplete="off" @error('mailservice') is-invalid @enderror>
                         @foreach (array_keys(config('mail.mailers')) as $mailer)
-                            <option value="{{ $mailer }}" @if (config('SETTINGS::MAIL:MAILER') == $mailer) selected
+                            <option value="{{ $mailer }}" @if ($settings->mail->mailer == $mailer) selected
                         @endif>{{ __($mailer) }}</option>
                         @endforeach
                     </select>
@@ -31,7 +31,7 @@
                     <div class="custom-control p-0">
                         <label for="mailhost">{{ __('Mail Host') }}:</label>
                         <input x-model="mailhost" id="mailhost" name="mailhost" type="text"
-                            value="{{ config('SETTINGS::MAIL:HOST') }}"
+                            value="{{ $settings->mail->host }}"
                             class="form-control @error('mailhost') is-invalid @enderror">
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="custom-control p-0">
                         <label for="mailport">{{ __('Mail Port') }}:</label>
                         <input x-model="mailhost" id="mailport" name="mailport" type="text"
-                            value="{{ config('SETTINGS::MAIL:PORT') }}"
+                            value="{{ $settings->mail->port }}"
                             class="form-control @error('mailport') is-invalid @enderror">
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="custom-control p-0">
                         <label for="mailusername">{{ __('Mail Username') }}:</label>
                         <input x-model="mailusername" id="mailusername" name="mailusername" type="text"
-                            value="{{ config('SETTINGS::MAIL:USERNAME') }}"
+                            value="{{ $settings->mail->username }}"
                             class="form-control @error('mailusername') is-invalid @enderror">
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     <div class="custom-control p-0">
                         <label for="mailpassword">{{ __('Mail Password') }}:</label>
                         <input x-model="mailpassword" id="mailpassword" name="mailpassword" type="password"
-                            value="{{ config('SETTINGS::MAIL:PASSWORD') }}"
+                            value="{{ $settings->mail->password }}"
                             class="form-control @error('mailpassword') is-invalid @enderror">
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     <div class="custom-control p-0">
                         <label for="mailencryption">{{ __('Mail Encryption') }}:</label>
                         <input x-model="mailencryption" id="mailencryption" name="mailencryption" type="text"
-                            value="{{ config('SETTINGS::MAIL:ENCRYPTION') }}"
+                            value="{{ $settings->mail->encryption }}"
                             class="form-control @error('mailencryption') is-invalid @enderror">
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     <div class="custom-control p-0">
                         <label for="mailfromadress">{{ __('Mail From Address') }}:</label>
                         <input x-model="mailfromadress" id="mailfromadress" name="mailfromadress" type="text"
-                            value="{{ config('SETTINGS::MAIL:FROM_ADDRESS') }}"
+                            value="{{ $settings->mail->from_address }}"
                             class="form-control @error('mailfromadress') is-invalid @enderror">
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="custom-control p-0">
                         <label for="mailfromname">{{ __('Mail From Name') }}:</label>
                         <input x-model="mailfromname" id="mailfromname" name="mailfromname" type="text"
-                            value="{{ config('SETTINGS::MAIL:FROM_NAME') }}"
+                            value="{{ $settings->mail->from_name }}"
                             class="form-control @error('mailfromname') is-invalid @enderror">
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-client-id">{{ __('Discord Client-ID') }}:</label>
                         <input x-model="discord-client-id" id="discord-client-id" name="discord-client-id" type="text"
-                            value="{{ config('SETTINGS::DISCORD:CLIENT_ID') }}"
+                            value="{{ $settings->discord->client_id }}"
                             class="form-control @error('discord-client-id') is-invalid @enderror">
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-client-secret">{{ __('Discord Client-Secret') }}:</label>
                         <input x-model="discord-client-secret" id="discord-client-secret" name="discord-client-secret"
-                            type="text" value="{{ config('SETTINGS::DISCORD:CLIENT_SECRET') }}"
+                            type="text" value="{{ $settings->discord->client_secret }}"
                             class="form-control @error('discord-client-secret') is-invalid @enderror">
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-client-secret">{{ __('Discord Bot-Token') }}:</label>
                         <input x-model="discord-bot-token" id="discord-bot-token" name="discord-bot-token" type="text"
-                            value="{{ config('SETTINGS::DISCORD:BOT_TOKEN') }}"
+                            value="{{ $settings->discord->bot_token }}"
                             class="form-control @error('discord-bot-token') is-invalid @enderror">
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-client-secret">{{ __('Discord Guild-ID') }}:</label>
                         <input x-model="discord-guild-id" id="discord-guild-id" name="discord-guild-id" type="number"
-                            value="{{ config('SETTINGS::DISCORD:GUILD_ID') }}"
+                            value="{{ $settings->discord->guild_id }}"
                             class="form-control @error('discord-guild-id') is-invalid @enderror">
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-invite-url">{{ __('Discord Invite-URL') }}:</label>
                         <input x-model="discord-invite-url" id="discord-invite-url" name="discord-invite-url"
-                            type="text" value="{{ config('SETTINGS::DISCORD:INVITE_URL') }}"
+                            type="text" value="{{ $settings->discord->invite_url }}"
                             class="form-control @error('discord-invite-url') is-invalid @enderror">
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     <div class="custom-control p-0">
                         <label for="discord-role-id">{{ __('Discord Role-ID') }}:</label>
                         <input x-model="discord-role-id" id="discord-role-id" name="discord-role-id" type="number"
-                            value="{{ config('SETTINGS::DISCORD:ROLE_ID') }}"
+                            value="{{ $settings->discord->role_id }}"
                             class="form-control @error('discord-role-id') is-invalid @enderror">
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                         <div>
                             <input value="true" id="enable-recaptcha" name="enable-recaptcha"
-                                {{ config('SETTINGS::RECAPTCHA:ENABLED') == 'true' ? 'checked' : '' }}
+                                {{ $settings->recaptcha->enabled == 'true' ? 'checked' : '' }}
                                 type="checkbox">
                             <label for="enable-recaptcha">{{ __('Enable ReCaptcha') }} </label>
                         </div>
@@ -170,7 +170,7 @@
                     <div class="custom-control p-0">
                         <label for="recaptcha-site-key">{{ __('ReCaptcha Site-Key') }}:</label>
                         <input x-model="recaptcha-site-key" id="recaptcha-site-key" name="recaptcha-site-key"
-                            type="text" value="{{ config('SETTINGS::RECAPTCHA:SITE_KEY') }}"
+                            type="text" value="{{ $settings->recaptcha->site_key }}"
                             class="form-control @error('recaptcha-site-key') is-invalid @enderror">
                         @error('recaptcha-site-key')
                                 <div class="text-danger">
@@ -184,7 +184,7 @@
                     <div class="custom-control p-0">
                         <label for="recaptcha-secret-key">{{ __('ReCaptcha Secret-Key') }}:</label>
                         <input x-model="recaptcha-secret-key" id="recaptcha-secret-key" name="recaptcha-secret-key"
-                            type="text" value="{{ config('SETTINGS::RECAPTCHA:SECRET_KEY') }}"
+                            type="text" value="{{ $settings->recaptcha->secret_key }}"
                             class="form-control @error('recaptcha-secret-key') is-invalid @enderror">
                         @error('recaptcha-secret-key')
                             <div class="text-danger">
@@ -193,7 +193,7 @@
                          @enderror
                     </div>
                 </div>
-                @if(config('SETTINGS::RECAPTCHA:ENABLED') == 'true')
+                @if($settings->recaptcha->enabled == 'true')
                 <div class="form-group mb-3">
                     <div class="custom-control p-0" style="transform:scale(0.77); transform-origin:0 0;">
                         <label style="font-size: 1.3rem;">{{ __('Your Recaptcha') }}:</label>
@@ -215,7 +215,7 @@
                     <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                         <div>
                             <input value="true" id="enable_referral" name="enable_referral"
-                                   {{ config('SETTINGS::REFERRAL::ENABLED') == 'true' ? 'checked' : '' }}
+                                   {{ $settings->referral == 'true' ? 'checked' : '' }}
                                    type="checkbox">
                             <label for="enable_referral">{{ __('Enable Referral') }} </label>
                         </div>
@@ -243,11 +243,11 @@
                     </label>
                     <select id="referral_mode" style="width:100%" class="custom-select" name="referral_mode" required
                             autocomplete="off" @error('referral_mode') is-invalid @enderror>
-                        <option value="commission" @if (config('SETTINGS::REFERRAL:MODE') == "commission") selected
+                        <option value="commission" @if ($settings->referral->mode == "commission") selected
                             @endif>{{ __("Commission") }}</option>
-                        <option value="sign-up" @if (config('SETTINGS::REFERRAL:MODE') == "sign-up") selected
+                        <option value="sign-up" @if ($settings->referral->mode == "sign-up") selected
                             @endif>{{ __("Sign-Up") }}</option>
-                        <option value="both" @if (config('SETTINGS::REFERRAL:MODE') == "both") selected
+                        <option value="both" @if ($settings->referral->mode == "both") selected
                             @endif>{{ __("Both") }}</option>
                     </select>
                 </div>
@@ -258,7 +258,7 @@
                                data-content="{{ __('If a referred user buys credits, the referral-user will get x% of the Credits the referred user bought') }}" class="fas fa-info-circle"></i>
                         </label>
                         <input x-model="referral_percentage" id="referral_percentage" name="referral_percentage"
-                            type="number" min="0" max="99999999" value="{{ config('SETTINGS::REFERRAL:PERCENTAGE') }}"
+                            type="number" min="0" max="99999999" value="{{ $settings->referral->percentage }}"
                             class="form-control @error('referral_percentage') is-invalid @enderror">
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                     <div class="custom-control p-0">
                         <label for="referral_reward">{{ __('Referral reward in') }} {{ config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME', 'Credits') }} {{__("(only for sign-up-mode)")}}:</label>
                         <input x-model="referral_reward" id="referral_reward" name="referral_reward"
-                            type="number" min="0" max="99999999" value="{{ config('SETTINGS::REFERRAL::REWARD') }}"
+                            type="number" min="0" max="99999999" value="{{ $settings->referral }}"
                             class="form-control @error('referral_reward') is-invalid @enderror">
                     </div>
                 </div>
@@ -277,9 +277,9 @@
                     </label>
                     <select id="referral_allowed" style="width:100%" class="custom-select" name="referral_allowed" required
                             autocomplete="off" @error('referral_allowed') is-invalid @enderror>
-                            <option value="everyone" @if (config('SETTINGS::REFERRAL::ALLOWED') == "everyone") selected
+                            <option value="everyone" @if ($settings->referral == "everyone") selected
                                 @endif>{{ __("Everyone") }}</option>
-                        <option value="client" @if (config('SETTINGS::REFERRAL::ALLOWED') == "client") selected
+                        <option value="client" @if ($settings->referral == "client") selected
                             @endif>{{ __("Clients") }}</option>
                     </select>
                 </div>
@@ -292,7 +292,7 @@
                     <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                         <div>
                             <input value="true" id="ticket_enabled" name="ticket_enabled"
-                                   {{ config('SETTINGS::TICKET:ENABLED') == 'true' ? 'checked' : '' }}
+                                   {{ $settings->ticket->enabled == 'true' ? 'checked' : '' }}
                                    type="checkbox">
                             <label for="ticket_enabled">{{ __('Enable Ticketsystem') }} </label>
                         </div>

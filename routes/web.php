@@ -74,7 +74,7 @@ Route::middleware(['auth', 'checkSuspended'])->group(function () {
     Route::get('notifications/readAll', [NotificationController::class, 'readAll'])->name('notifications.readAll');
     Route::resource('notifications', NotificationController::class);
     Route::resource('servers', ServerController::class);
-    if (config('SETTINGS::SYSTEM:ENABLE_UPGRADE')) {
+    if ($settings->system->enable_upgrade) {
         Route::post('servers/{server}/upgrade', [ServerController::class, 'upgrade'])->name('servers.upgrade');
     }
 
@@ -110,7 +110,7 @@ Route::middleware(['auth', 'checkSuspended'])->group(function () {
     Route::post('changelocale', [TranslationController::class, 'changeLocale'])->name('changeLocale');
 
     //ticket user
-    if (config('SETTINGS::TICKET:ENABLED')) {
+    if ($settings->ticket->enabled) {
         Route::get('ticket', [TicketsController::class, 'index'])->name('ticket.index');
         Route::get('ticket/datatable', [TicketsController::class, 'datatable'])->name('ticket.datatable');
         Route::get('ticket/new', [TicketsController::class, 'create'])->name('ticket.new');

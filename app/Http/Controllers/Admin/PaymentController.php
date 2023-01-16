@@ -185,7 +185,7 @@ class PaymentController extends Controller
      */
     protected function getPaypalClientId()
     {
-        return env('APP_ENV') == 'local' ? config('SETTINGS::PAYMENTS:PAYPAL:SANDBOX_CLIENT_ID') : config('SETTINGS::PAYMENTS:PAYPAL:CLIENT_ID');
+        return env('APP_ENV') == 'local' ? $settings->payments->paypal->sandbox_client_id : $settings->payments->paypal->client_id;
     }
 
     /**
@@ -193,7 +193,7 @@ class PaymentController extends Controller
      */
     protected function getPaypalClientSecret()
     {
-        return env('APP_ENV') == 'local' ? config('SETTINGS::PAYMENTS:PAYPAL:SANDBOX_SECRET') : config('SETTINGS::PAYMENTS:PAYPAL:SECRET');
+        return env('APP_ENV') == 'local' ? $settings->payments->paypal->sandbox_secret : $settings->payments->paypal->secret;
     }
 
     /**
@@ -215,9 +215,9 @@ class PaymentController extends Controller
             if ($response->statusCode == 201 || $response->statusCode == 200) {
 
                 //update server limit
-                if (config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE') !== 0) {
-                    if ($user->server_limit < config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')) {
-                        $user->update(['server_limit' => config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')]);
+                if ($settings->user->server_limit_after_irl_purchase !== 0) {
+                    if ($user->server_limit < $settings->user->server_limit_after_irl_purchase) {
+                        $user->update(['server_limit' => $settings->user->server_limit_after_irl_purchase]);
                     }
                 }
 
@@ -229,7 +229,7 @@ class PaymentController extends Controller
                 }
 
                 //give referral commission always
-                if ((config('SETTINGS::REFERRAL:MODE') == 'commission' || config('SETTINGS::REFERRAL:MODE') == 'both') && $shopProduct->type == 'Credits' && config('SETTINGS::REFERRAL::ALWAYS_GIVE_COMMISSION') == 'true') {
+                if (($settings->referral->mode == 'commission' || $settings->referral->mode == 'both') && $shopProduct->type == 'Credits' && config('SETTINGS::REFERRAL::ALWAYS_GIVE_COMMISSION') == 'true') {
                     if ($ref_user = DB::table('user_referrals')->where('registered_user_id', '=', $user->id)->first()) {
                         $ref_user = User::findOrFail($ref_user->referral_id);
                         $increment = number_format($shopProduct->quantity * (PartnerDiscount::getCommission($ref_user->id)) / 100, 0, '', '');
@@ -239,7 +239,7 @@ class PaymentController extends Controller
                         activity()
                             ->performedOn($user)
                             ->causedBy($ref_user)
-                            ->log('gained '.$increment.' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
+                            ->log('gained '.$increment.' '.$settings->system->credits_display_name.' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
                     }
                 }
 
@@ -248,7 +248,7 @@ class PaymentController extends Controller
                     $user->update(['role' => 'client']);
 
                     //give referral commission only on first purchase
-                    if ((config('SETTINGS::REFERRAL:MODE') == 'commission' || config('SETTINGS::REFERRAL:MODE') == 'both') && $shopProduct->type == 'Credits' && config('SETTINGS::REFERRAL::ALWAYS_GIVE_COMMISSION') == 'false') {
+                    if (($settings->referral->mode == 'commission' || $settings->referral->mode == 'both') && $shopProduct->type == 'Credits' && config('SETTINGS::REFERRAL::ALWAYS_GIVE_COMMISSION') == 'false') {
                         if ($ref_user = DB::table('user_referrals')->where('registered_user_id', '=', $user->id)->first()) {
                             $ref_user = User::findOrFail($ref_user->referral_id);
                             $increment = number_format($shopProduct->quantity * (PartnerDiscount::getCommission($ref_user->id)) / 100, 0, '', '');
@@ -258,7 +258,7 @@ class PaymentController extends Controller
                             activity()
                                 ->performedOn($user)
                                 ->causedBy($ref_user)
-                                ->log('gained '.$increment.' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
+                                ->log('gained '.$increment.' '.$settings->system->credits_display_name.' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
                         }
                     }
                 }
@@ -282,7 +282,7 @@ class PaymentController extends Controller
                 event(new UserUpdateCreditsEvent($user));
 
                 //only create invoice if SETTINGS::INVOICE:ENABLED is true
-                if (config('SETTINGS::INVOICE:ENABLED') == 'true') {
+                if ($settings->invoice->enabled == 'true') {
                     $this->createInvoice($user, $payment, 'paid', $shopProduct->currency_code);
                 }
 
@@ -351,7 +351,7 @@ class PaymentController extends Controller
             ],
 
             'mode' => 'payment',
-            'payment_method_types' => str_getcsv(config('SETTINGS::PAYMENTS:STRIPE:METHODS')),
+            'payment_method_types' => str_getcsv($settings->payments->stripe->methods),
             'success_url' => route('payment.StripeSuccess', ['product' => $shopProduct->id]).'&session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('payment.Cancel'),
         ]);
@@ -384,9 +384,9 @@ class PaymentController extends Controller
             if ($paymentSession->status == 'complete' && $paymentIntent->status == 'succeeded' && $paymentDbEntry == 0) {
 
                 //update server limit
-                if (config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE') !== 0) {
-                    if ($user->server_limit < config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')) {
-                        $user->update(['server_limit' => config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')]);
+                if ($settings->user->server_limit_after_irl_purchase !== 0) {
+                    if ($user->server_limit < $settings->user->server_limit_after_irl_purchase) {
+                        $user->update(['server_limit' => $settings->user->server_limit_after_irl_purchase]);
                     }
                 }
 
@@ -401,17 +401,17 @@ class PaymentController extends Controller
                 if ($user->role == 'member') {
                     $user->update(['role' => 'client']);
 
-                    if ((config('SETTINGS::REFERRAL:MODE') == 'commission' || config('SETTINGS::REFERRAL:MODE') == 'both') && $shopProduct->type == 'Credits') {
+                    if (($settings->referral->mode == 'commission' || $settings->referral->mode == 'both') && $shopProduct->type == 'Credits') {
                         if ($ref_user = DB::table('user_referrals')->where('registered_user_id', '=', $user->id)->first()) {
                             $ref_user = User::findOrFail($ref_user->referral_id);
-                            $increment = number_format($shopProduct->quantity / 100 * config('SETTINGS::REFERRAL:PERCENTAGE'), 0, '', '');
+                            $increment = number_format($shopProduct->quantity / 100 * $settings->referral->percentage, 0, '', '');
                             $ref_user->increment('credits', $increment);
 
                             //LOGS REFERRALS IN THE ACTIVITY LOG
                             activity()
                                 ->performedOn($user)
                                 ->causedBy($ref_user)
-                                ->log('gained '.$increment.' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
+                                ->log('gained '.$increment.' '.$settings->system->credits_display_name.' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
                         }
                     }
                 }
@@ -438,7 +438,7 @@ class PaymentController extends Controller
                 event(new UserUpdateCreditsEvent($user));
 
                 //only create invoice if SETTINGS::INVOICE:ENABLED is true
-                if (config('SETTINGS::INVOICE:ENABLED') == 'true') {
+                if ($settings->invoice->enabled == 'true') {
                     $this->createInvoice($user, $payment, 'paid', $shopProduct->currency_code);
                 }
 
@@ -464,7 +464,7 @@ class PaymentController extends Controller
                     ]);
 
                     //only create invoice if SETTINGS::INVOICE:ENABLED is true
-                    if (config('SETTINGS::INVOICE:ENABLED') == 'true') {
+                    if ($settings->invoice->enabled == 'true') {
                         $this->createInvoice($user, $payment, 'paid', $shopProduct->currency_code);
                     }
 
@@ -503,9 +503,9 @@ class PaymentController extends Controller
             if ($paymentIntent->status == 'succeeded' && $payment->status == 'processing') {
 
                 //update server limit
-                if (config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE') !== 0) {
-                    if ($user->server_limit < config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')) {
-                        $user->update(['server_limit' => config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE')]);
+                if ($settings->user->server_limit_after_irl_purchase !== 0) {
+                    if ($user->server_limit < $settings->user->server_limit_after_irl_purchase) {
+                        $user->update(['server_limit' => $settings->user->server_limit_after_irl_purchase]);
                     }
                 }
                 //update User with bought item
@@ -519,17 +519,17 @@ class PaymentController extends Controller
                 if ($user->role == 'member') {
                     $user->update(['role' => 'client']);
 
-                    if ((config('SETTINGS::REFERRAL:MODE') == 'commission' || config('SETTINGS::REFERRAL:MODE') == 'both') && $shopProduct->type == 'Credits') {
+                    if (($settings->referral->mode == 'commission' || $settings->referral->mode == 'both') && $shopProduct->type == 'Credits') {
                         if ($ref_user = DB::table('user_referrals')->where('registered_user_id', '=', $user->id)->first()) {
                             $ref_user = User::findOrFail($ref_user->referral_id);
-                            $increment = number_format($shopProduct->quantity / 100 * config('SETTINGS::REFERRAL:PERCENTAGE'), 0, '', '');
+                            $increment = number_format($shopProduct->quantity / 100 * $settings->referral->percentage, 0, '', '');
                             $ref_user->increment('credits', $increment);
 
                             //LOGS REFERRALS IN THE ACTIVITY LOG
                             activity()
                                 ->performedOn($user)
                                 ->causedBy($ref_user)
-                                ->log('gained '.$increment.' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
+                                ->log('gained '.$increment.' '.$settings->system->credits_display_name.' for commission-referral of '.$user->name.' (ID:'.$user->id.')');
                         }
                     }
                 }
@@ -542,7 +542,7 @@ class PaymentController extends Controller
                 event(new UserUpdateCreditsEvent($user));
 
                 //only create invoice if SETTINGS::INVOICE:ENABLED is true
-                if (config('SETTINGS::INVOICE:ENABLED') == 'true') {
+                if ($settings->invoice->enabled == 'true') {
                     $this->createInvoice($user, $payment, 'paid', strtoupper($paymentIntent->currency));
                 }
             }
@@ -602,8 +602,8 @@ class PaymentController extends Controller
     protected function getStripeSecret()
     {
         return env('APP_ENV') == 'local'
-            ? config('SETTINGS::PAYMENTS:STRIPE:TEST_SECRET')
-            : config('SETTINGS::PAYMENTS:STRIPE:SECRET');
+            ? $settings->payments->stripe->test_secret
+            : $settings->payments->stripe->secret;
     }
 
     /**
@@ -612,8 +612,8 @@ class PaymentController extends Controller
     protected function getStripeEndpointSecret()
     {
         return env('APP_ENV') == 'local'
-            ? config('SETTINGS::PAYMENTS:STRIPE:ENDPOINT_TEST_SECRET')
-            : config('SETTINGS::PAYMENTS:STRIPE:ENDPOINT_SECRET');
+            ? $settings->payments->stripe->endpoint_test_secret
+            : $settings->payments->stripe->endpoint_secret;
     }
 
     protected function createInvoice($user, $payment, $paymentStatus, $currencyCode)
@@ -625,13 +625,13 @@ class PaymentController extends Controller
         $logoPath = storage_path('app/public/logo.png');
 
         $seller = new Party([
-            'name' => config('SETTINGS::INVOICE:COMPANY_NAME'),
-            'phone' => config('SETTINGS::INVOICE:COMPANY_PHONE'),
-            'address' => config('SETTINGS::INVOICE:COMPANY_ADDRESS'),
-            'vat' => config('SETTINGS::INVOICE:COMPANY_VAT'),
+            'name' => $settings->invoice->company_name,
+            'phone' => $settings->invoice->company_phone,
+            'address' => $settings->invoice->company_address,
+            'vat' => $settings->invoice->company_vat,
             'custom_fields' => [
-                'E-Mail' => config('SETTINGS::INVOICE:COMPANY_MAIL'),
-                'Web' => config('SETTINGS::INVOICE:COMPANY_WEBSITE'),
+                'E-Mail' => $settings->invoice->company_mail,
+                'Web' => $settings->invoice->company_website,
             ],
         ]);
 
@@ -664,7 +664,7 @@ class PaymentController extends Controller
             ->series(now()->format('mY'))
             ->delimiter('-')
             ->sequence($newInvoiceID)
-            ->serialNumberFormat(config('SETTINGS::INVOICE:PREFIX').'{DELIMITER}{SERIES}{SEQUENCE}')
+            ->serialNumberFormat($settings->invoice->prefix.'{DELIMITER}{SERIES}{SEQUENCE}')
             ->currencyCode($currencyCode)
             ->currencySymbol(Currencies::getSymbol($currencyCode))
             ->notes($notes);

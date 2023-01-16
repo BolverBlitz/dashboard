@@ -66,7 +66,7 @@ class ShopProduct extends Model
      */
     public function getTaxPercent()
     {
-        $tax = config('SETTINGS::PAYMENTS:SALES_TAX');
+        $tax = $settings->payments->sales_tax;
 
         return $tax < 0 ? 0 : $tax;
     }

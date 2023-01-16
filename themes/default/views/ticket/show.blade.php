@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <div class="ticket-info">
                                 @if(!empty($server))
-                                <p><b>Server:</b> <a href="{{ config('SETTINGS::SYSTEM:PTERODACTYL:URL') }}/server/{{ $server->identifier }}" target="__blank">{{ $server->name }} </a></p>
+                                <p><b>Server:</b> <a href="{{ $settings->system->pterodactyl->url }}/server/{{ $server->identifier }}" target="__blank">{{ $server->name }} </a></p>
                                 @endif
                                 <p><b>Title:</b> {{ $ticket->title }}</p>
                                 <p><b>Category:</b> {{ $ticketcategory->name }}</p>

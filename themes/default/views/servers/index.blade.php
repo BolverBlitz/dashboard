@@ -36,9 +36,9 @@
                         class="fa fa-plus mr-2"></i>
                     {{ __('Create Server') }}
                 </a>
-                @if (Auth::user()->Servers->count() > 0&&!empty(config('SETTINGS::MISC:PHPMYADMIN:URL')))
+                @if (Auth::user()->Servers->count() > 0&&!empty($settings->misc->phpmyadmin->url))
                     <a 
-                        href="{{ config('SETTINGS::MISC:PHPMYADMIN:URL') }}" target="_blank"
+                        href="{{ $settings->misc->phpmyadmin->url }}" target="_blank"
                         class="btn btn-secondary ml-2"><i title="manage"
                         class="fas fa-database mr-2"></i><span>{{ __('Database') }}</span>
                     </a>
@@ -137,7 +137,7 @@
                             </div>
 
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a href="{{ config('SETTINGS::SYSTEM:PTERODACTYL:URL') }}/server/{{ $server->identifier }}"
+                                <a href="{{ $settings->system->pterodactyl->url }}/server/{{ $server->identifier }}"
                                     target="__blank"
                                     class="btn btn-info mx-3 w-100 align-items-center justify-content-center d-flex">
                                     <i class="fas fa-tools mr-2"></i>

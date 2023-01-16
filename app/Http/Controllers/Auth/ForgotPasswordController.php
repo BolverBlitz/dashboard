@@ -37,7 +37,7 @@ class ForgotPasswordController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
-        if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true') {
+        if ($settings->recaptcha->enabled == 'true') {
             $this->validate($request, [
                 'g-recaptcha-response' => 'required|recaptcha',
             ]);

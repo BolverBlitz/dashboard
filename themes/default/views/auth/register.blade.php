@@ -10,7 +10,7 @@
                         class="mr-1">{{ config('app.name', 'Laravel') }}</b></a>
             </div>
             <div class="card-body">
-                @if (!config('SETTINGS::SYSTEM:CREATION_OF_NEW_USERS'))
+                @if (!$settings->system->creation_of_new_users)
                     <div class="alert alert-warning p-2 m-2">
                         <h5><i class="icon fas fa-exclamation-circle"></i> {{ __('Warning!') }}</h5>
                         {{ __('The system administrator has blocked the registration of new users') }}
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (config('SETTINGS::REFERRAL::ENABLED') == 'true')
+                        @if ($settings->referral == 'true')
                             <div class="input-group mb-3">
                                 <input type="text" value="{{ Request::get('ref') }}" class="form-control"
                                        name="referral_code"
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true')
+                        @if ($settings->recaptcha->enabled == 'true')
                             <div class="input-group mb-3">
                                 {!! htmlFormSnippet() !!}
                                 @error('g-recaptcha-response')

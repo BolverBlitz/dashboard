@@ -57,7 +57,7 @@
                         <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                             <div>
                                 <input value="true" id="register-ip-check" name="register-ip-check"
-                                    {{ config('SETTINGS::SYSTEM:REGISTER_IP_CHECK') == 'true' ? 'checked' : '' }}
+                                    {{ $settings->system->register_ip_check == 'true' ? 'checked' : '' }}
                                     type="checkbox">
                                 <label for="register-ip-check">{{ __('Register IP Check') }} </label>
                             </div>
@@ -72,7 +72,7 @@
                             <div>
                                 <input value="true" id="server-create-charge-first-hour"
                                     name="server-create-charge-first-hour"
-                                    {{ config('SETTINGS::SYSTEM:SERVER_CREATE_CHARGE_FIRST_HOUR') == 'true' ? 'checked' : '' }}
+                                    {{ $settings->system->server_create_charge_first_hour == 'true' ? 'checked' : '' }}
                                     type="checkbox">
                                 <label for="server-create-charge-first-hour">{{ __('Charge first hour at creation') }}
                                 </label>
@@ -97,7 +97,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="phpmyadmin-url" id="phpmyadmin-url" name="phpmyadmin-url" type="text"
-                            value="{{ config('SETTINGS::MISC:PHPMYADMIN:URL') }}"
+                            value="{{ $settings->misc->phpmyadmin->url }}"
                             class="form-control @error('phpmyadmin-url') is-invalid @enderror">
                     </div>
                     <div class="custom-control p-0 mb-3">
@@ -108,7 +108,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="pterodactyl-url" id="pterodactyl-url" name="pterodactyl-url" type="text"
-                            value="{{ config('SETTINGS::SYSTEM:PTERODACTYL:URL') }}"
+                            value="{{ $settings->system->pterodactyl->url }}"
                             class="form-control @error('pterodactyl-url') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
@@ -119,7 +119,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="per-page-limit" id="per-page-limit" name="per-page-limit" type="number"
-                            value="{{ config('SETTINGS::SYSTEM:PTERODACTYL:PER_PAGE_LIMIT') }}"
+                            value="{{ $settings->system->pterodactyl->per_page_limit }}"
                             class="form-control @error('per-page-limit') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control p-0 mb-3">
@@ -130,7 +130,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="pterodactyl-api-key" id="pterodactyl-api-key" name="pterodactyl-api-key"
-                            type="text" value="{{ config('SETTINGS::SYSTEM:PTERODACTYL:TOKEN') }}"
+                            type="text" value="{{ $settings->system->pterodactyl->token }}"
                             class="form-control @error('pterodactyl-api-key') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control p-0 mb-3">
@@ -143,7 +143,7 @@
                         </div>
                         <input x-model="pterodactyl-admin-api-key" id="pterodactyl-admin-api-key"
                             name="pterodactyl-admin-api-key" type="text"
-                            value="{{ config('SETTINGS::SYSTEM:PTERODACTYL:ADMIN_USER_TOKEN') }}"
+                            value="{{ $settings->system->pterodactyl->admin_user_token }}"
                             class="form-control @error('pterodactyl-admin-api-key') is-invalid @enderror" required>
                         @error('pterodactyl-admin-api-key')
                             <div class="text-danger">
@@ -167,20 +167,20 @@
                 <div class="form-group">
                     <div class="custom-control mb-1 p-0">
                         <input value="true" id="force-discord-verification" name="force-discord-verification"
-                            {{ config('SETTINGS::USER:FORCE_DISCORD_VERIFICATION') == 'true' ? 'checked' : '' }}
+                            {{ $settings->user->force_discord_verification == 'true' ? 'checked' : '' }}
                             type="checkbox">
                         <label for="force-discord-verification">{{ __('Force Discord verification') }}
                         </label>
                     </div>
                     <div class="custom-control mb-1 p-0">
                         <input value="true" id="force-email-verification" name="force-email-verification"
-                            {{ config('SETTINGS::USER:FORCE_EMAIL_VERIFICATION') == 'true' ? 'checked' : '' }}
+                            {{ $settings->user->force_email_verification == 'true' ? 'checked' : '' }}
                             type="checkbox">
                         <label for="force-email-verification">{{ __('Force E-Mail verification') }} </label>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <input value="true" id="enable-disable-new-users" name="enable-disable-new-users"
-                            {{ config('SETTINGS::SYSTEM:CREATION_OF_NEW_USERS') == 'true' ? 'checked' : '' }}
+                            {{ $settings->system->creation_of_new_users == 'true' ? 'checked' : '' }}
                             type="checkbox">
                         <label for="enable-disable-new-users">{{ __('Creation of new users') }} </label>
                         <i data-toggle="popover" data-trigger="hover" data-html="true" class="fas fa-info-circle"
@@ -191,20 +191,20 @@
                     <div class="custom-control mb-3 p-0">
                         <label for="initial-credits">{{ __('Initial Credits') }}</label>
                         <input x-model="initial-credits" id="initial-credits" name="initial-credits" type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:INITIAL_CREDITS') }}"
+                            value="{{ $settings->user->initial_credits }}"
                             class="form-control @error('initial-credits') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <label for="initial-server-limit">{{ __('Initial Server Limit') }}</label>
                         <input x-model="initial-server-limit" id="initial-server-limit" name="initial-server-limit" type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:INITIAL_SERVER_LIMIT') }}"
+                            value="{{ $settings->user->initial_server_limit }}"
                             class="form-control @error('initial-server-limit') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <label for="credits-reward-amount-discord">{{ __('Credits Reward Amount - Discord') }}</label>
                         <input x-model="credits-reward-amount-discord" id="credits-reward-amount-discord"
                             name="credits-reward-amount-discord" type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_DISCORD') }}"
+                            value="{{ $settings->user->credits_reward_after_verify_discord }}"
                             class="form-control @error('credits-reward-amount-discord') is-invalid @enderror" required>
                     </div>
 
@@ -212,28 +212,28 @@
                         <label for="credits-reward-amount-email">{{ __('Credits Reward Amount - E-Mail') }}</label>
                         <input x-model="credits-reward-amount-email" id="credits-reward-amount-email"
                             name="credits-reward-amount-email" type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_EMAIL') }}"
+                            value="{{ $settings->user->credits_reward_after_verify_email }}"
                             class="form-control @error('credits-reward-amount-email') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <label for="server-limit-discord">{{ __('Server Limit Increase - Discord') }}</label>
                         <input x-model="server-limit-discord" id="server-limit-discord" name="server-limit-discord"
                             type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_DISCORD') }}"
+                            value="{{ $settings->user->server_limit_reward_after_verify_discord }}"
                             class="form-control @error('server-limit-discord') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <label for="server-limit-email">{{ __('Server Limit Increase - E-Mail') }}</label>
                         <input x-model="server-limit-email" id="server-limit-email" name="server-limit-email"
                             type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_EMAIL') }}"
+                            value="{{ $settings->user->server_limit_reward_after_verify_email }}"
                             class="form-control @error('server-limit-email') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
                         <label for="server-limit-purchase">{{ __('Server Limit after Credits Purchase') }}</label>
                         <input x-model="server-limit-purchase" id="server-limit-purchase"
                             name="server-limit-purchase" type="number" min="0" max="99999999"
-                            value="{{ config('SETTINGS::USER:SERVER_LIMIT_AFTER_IRL_PURCHASE') }}"
+                            value="{{ $settings->user->server_limit_after_irl_purchase }}"
                             class="form-control @error('server-limit-purchase') is-invalid @enderror" required>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                         <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                             <div>
                                 <input value="true" id="enable-upgrade" name="enable-upgrade"
-                                    {{ config('SETTINGS::SYSTEM:ENABLE_UPGRADE') == 'true' ? 'checked' : '' }}
+                                    {{ $settings->system->enable_upgrade == 'true' ? 'checked' : '' }}
                                     type="checkbox">
                                 <label for="enable-upgrade">{{ __('Enable upgrade/downgrade of servers') }} </label>
                             </div>
@@ -266,7 +266,7 @@
                         <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                             <div>
                                 <input value="true" id="enable-disable-servers" name="enable-disable-servers"
-                                    {{ config('SETTINGS::SYSTEM:CREATION_OF_NEW_SERVERS') == 'true' ? 'checked' : '' }}
+                                    {{ $settings->system->creation_of_new_servers == 'true' ? 'checked' : '' }}
                                     type="checkbox">
                                 <label for="enable-disable-servers">{{ __('Creation of new servers') }} </label>
                             </div>
@@ -285,7 +285,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="allocation-limit" id="allocation-limit" name="allocation-limit"
-                        type="number" min="0" max="99999999" value="{{ config('SETTINGS::SERVER:ALLOCATION_LIMIT') }}"
+                        type="number" min="0" max="99999999" value="{{ $settings->server->allocation_limit }}"
                             class="form-control @error('allocation-limit') is-invalid @enderror" required>
                     </div>
                     <div class="custom-control mb-3 p-0">
@@ -296,7 +296,7 @@
                                 class="fas fa-info-circle"></i>
                         </div>
                         <input x-model="minimum-credits" id="minimum-credits" name="minimum-credits"
-                        type="number" min="0" max="99999999" value="{{ config('SETTINGS::USER:MINIMUM_REQUIRED_CREDITS_TO_MAKE_SERVER') }}"
+                        type="number" min="0" max="99999999" value="{{ $settings->user->minimum_required_credits_to_make_server }}"
                             class="form-control @error('minimum-credits') is-invalid @enderror" required>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
                 </div>
                 <div class="custom-control mb-3 p-0">
                     <input value="true" id="enable-login-logo" name="enable-login-logo"
-                        {{ config('SETTINGS::SYSTEM:ENABLE_LOGIN_LOGO') == 'true' ? 'checked' : '' }} type="checkbox">
+                        {{ $settings->system->enable_login_logo == 'true' ? 'checked' : '' }} type="checkbox">
                     <label for="enable-login-logo">{{ __('Enable Logo on Loginpage') }} </label>
                 </div>
                 <div class="form-group">

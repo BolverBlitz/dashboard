@@ -209,7 +209,7 @@ class PartnerController extends Controller
                 return $partner->registered_user_discount ? $partner->registered_user_discount.'%' : '0%';
             })
             ->editColumn('referral_system_commission', function (PartnerDiscount $partner) {
-                return $partner->referral_system_commission >= 0 ? $partner->referral_system_commission.'%' : __('Default').' ('.config('SETTINGS::REFERRAL:PERCENTAGE').'%)';
+                return $partner->referral_system_commission >= 0 ? $partner->referral_system_commission.'%' : __('Default').' ('.$settings->referral->percentage.'%)';
             })
             ->rawColumns(['user', 'actions'])
             ->make();

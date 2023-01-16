@@ -11,7 +11,7 @@
                     <div class="custom-control p-0">
                         <label for="company-name">{{ __('Company Name') }}:</label>
                         <input x-model="company-name" id="company-name" name="company-name" type="text" required
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_NAME') }}"
+                            value="{{ $settings->invoice->company_name }}"
                             class="form-control @error('company-name') is-invalid @enderror">
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                     <div class="custom-control  p-0">
                         <label for="company-address">{{ __('Company Address') }}:</label>
                         <input x-model="company-address" id="company-address" name="company-address" type="text"
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_ADDRESS') }}"
+                            value="{{ $settings->invoice->company_address }}"
                             class="form-control @error('company-address') is-invalid @enderror">
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="custom-control p-0">
                         <label for="company-phone">{{ __('Company Phonenumber') }}:</label>
                         <input x-model="company-phone" id="company-phone" name="company-phone" type="text"
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_PHONE') }}"
+                            value="{{ $settings->invoice->company_phone }}"
                             class="form-control @error('company-phone') is-invalid @enderror">
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="custom-control p-0">
                         <label for="company-vat">{{ __('VAT ID') }}:</label>
                         <input x-model="company-vat" id="company-vat" name="company-vat" type="text"
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_VAT') }}"
+                            value="{{ $settings->invoice->company_vat }}"
                             class="form-control @error('company-vat') is-invalid @enderror">
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="custom-control p-0">
                         <label for="company-mail">{{ __('Company E-Mail Address') }}:</label>
                         <input x-model="company-mail" id="company-mail" name="company-mail" type="text"
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_MAIL') }}"
+                            value="{{ $settings->invoice->company_mail }}"
                             class="form-control @error('company-mail') is-invalid @enderror">
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="custom-control p-0">
                         <label for="company-web">{{ __('Company Website') }}:</label>
                         <input x-model="company-web" id="company-web" name="company-web" type="text"
-                            value="{{ config('SETTINGS::INVOICE:COMPANY_WEBSITE') }}"
+                            value="{{ $settings->invoice->company_website }}"
                             class="form-control @error('company-web') is-invalid @enderror">
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="custom-control p-0">
                         <label for="invoice-prefix">{{ __('Invoice Prefix') }}:</label>
                         <input x-model="invoice-prefix" id="invoice-prefix" name="invoice-prefix" type="text" required
-                            value="{{ config('SETTINGS::INVOICE:PREFIX') }}"
+                            value="{{ $settings->invoice->prefix }}"
                             class="form-control @error('invoice-prefix') is-invalid @enderror">
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                     <div class="col m-0 p-0 d-flex justify-content-between align-items-center">
                         <div>
                             <input value="true" id="enable-invoices" name="enable-invoices"
-                                {{ config('SETTINGS::INVOICE:ENABLED') == 'true' ? 'checked' : '' }} type="checkbox">
+                                {{ $settings->invoice->enabled == 'true' ? 'checked' : '' }} type="checkbox">
                             <label for="enable-invoices">{{ __('Enable Invoices') }} </label>
                         </div>
                     </div>

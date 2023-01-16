@@ -94,7 +94,7 @@ class ProductController extends Controller
     {
         return view('admin.products.show', [
             'product' => $product,
-            'minimum_credits' => config('SETTINGS::USER:MINIMUM_REQUIRED_CREDITS_TO_MAKE_SERVER'),
+            'minimum_credits' => $settings->user->minimum_required_credits_to_make_server,
         ]);
     }
 
@@ -230,7 +230,7 @@ class ProductController extends Controller
                 ';
             })
             ->editColumn('minimum_credits', function (Product $product) {
-                return $product->minimum_credits==-1 ? config('SETTINGS::USER:MINIMUM_REQUIRED_CREDITS_TO_MAKE_SERVER') : $product->minimum_credits;
+                return $product->minimum_credits==-1 ? $settings->user->minimum_required_credits_to_make_server : $product->minimum_credits;
             })
             ->editColumn('created_at', function (Product $product) {
                 return $product->created_at ? $product->created_at->diffForHumans() : '';

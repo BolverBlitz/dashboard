@@ -23,8 +23,8 @@ class Verified
     public function handle($event)
     {
         if (! $event->user->email_verified_reward) {
-            $event->user->increment('server_limit', config('SETTINGS::USER:SERVER_LIMIT_REWARD_AFTER_VERIFY_EMAIL'));
-            $event->user->increment('credits', config('SETTINGS::USER:CREDITS_REWARD_AFTER_VERIFY_EMAIL'));
+            $event->user->increment('server_limit', $settings->user->server_limit_reward_after_verify_email);
+            $event->user->increment('credits', $settings->user->credits_reward_after_verify_email);
         }
     }
 }

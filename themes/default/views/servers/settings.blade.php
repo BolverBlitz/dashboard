@@ -222,7 +222,7 @@
                 <div class="card-footer">
                     <div class="col-md-12 text-center">
                         <!-- Upgrade Button trigger modal -->
-                        @if(config("SETTINGS::SYSTEM:ENABLE_UPGRADE"))
+                        @if($settings->system->enable_upgrade)
                             <button type="button" data-toggle="modal" data-target="#UpgradeModal{{ $server->id }}" target="__blank"
                                 class="btn btn-info btn-md">
                                 <i class="fas fa-upload mr-2"></i>

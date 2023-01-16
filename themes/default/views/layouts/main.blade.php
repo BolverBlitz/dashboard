@@ -56,14 +56,14 @@
                     <a href="{{ route('home') }}" class="nav-link"><i
                             class="fas fa-home mr-2"></i>{{ __('Home') }}</a>
                 </li>
-                @if (config('SETTINGS::DISCORD:INVITE_URL'))
+                @if ($settings->discord->invite_url)
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{ config('SETTINGS::DISCORD:INVITE_URL') }}" class="nav-link" target="__blank"><i
+                        <a href="{{ $settings->discord->invite_url }}" class="nav-link" target="__blank"><i
                                 class="fab fa-discord mr-2"></i>{{ __('Discord') }}</a>
                     </li>
                 @endif
                 <!-- Language Selection -->
-                @if (config('SETTINGS::LOCALE:CLIENTS_CAN_CHANGE') == 'true')
+                @if ($settings->locale->clients_can_change == 'true')
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="languageDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -75,7 +75,7 @@
                             aria-labelledby="changeLocale">
                             <form method="post" action="{{ route('changeLocale') }}" class="nav-item text-center">
                                 @csrf
-                                @foreach (explode(',', config('SETTINGS::LOCALE:AVAILABLE')) as $key)
+                                @foreach (explode(',', $settings->locale->available) as $key)
                                     <button class="dropdown-item" name="inputLocale" value="{{ $key }}">
                                         {{ __($key) }}
                                     </button>
@@ -226,10 +226,10 @@
                         </li>
 
                         @if (env('APP_ENV') == 'local' ||
-                            (config('SETTINGS::PAYMENTS:PAYPAL:SECRET') && config('SETTINGS::PAYMENTS:PAYPAL:CLIENT_ID')) ||
-                            (config('SETTINGS::PAYMENTS:STRIPE:SECRET') &&
-                                config('SETTINGS::PAYMENTS:STRIPE:ENDPOINT_SECRET') &&
-                                config('SETTINGS::PAYMENTS:STRIPE:METHODS')))
+                            ($settings->payments->paypal->secret && $settings->payments->paypal->client_id) ||
+                            ($settings->payments->stripe->secret &&
+                                $settings->payments->stripe->endpoint_secret &&
+                                $settings->payments->stripe->methods))
                             <li class="nav-item">
                                 <a href="{{ route('store.index') }}"
                                     class="nav-link @if (Request::routeIs('store.*') || Request::routeIs('checkout')) active @endif">
@@ -238,7 +238,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (config('SETTINGS::TICKET:ENABLED'))
+                        @if ($settings->ticket->enabled)
                             <li class="nav-item">
                                 <a href="{{ route('ticket.index') }}"
                                     class="nav-link @if (Request::routeIs('ticket.*')) active @endif">
@@ -248,7 +248,7 @@
                             </li>
                         @endif
 
-                        @if ((Auth::user()->role == 'admin' || Auth::user()->role == 'moderator') && config('SETTINGS::TICKET:ENABLED'))
+                        @if ((Auth::user()->role == 'admin' || Auth::user()->role == 'moderator') && $settings->ticket->enabled)
                             <li class="nav-header">{{ __('Moderation') }}</li>
 
                             <li class="nav-item">

@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
-        if (config('SETTINGS::RECAPTCHA:ENABLED') == 'true') {
+        if ($settings->recaptcha->enabled == 'true') {
             $validationRules['g-recaptcha-response'] = ['required', 'recaptcha'];
         }
         if (config('SETTINGS::SYSTEM:SHOW_TOS') == 'true') {
@@ -146,15 +146,15 @@ class RegisterController extends Controller
             $ref_code = $data['referral_code'];
             $new_user = $user->id;
             if ($ref_user = User::query()->where('referral_code', '=', $ref_code)->first()) {
-                if (config('SETTINGS::REFERRAL:MODE') == 'sign-up' || config('SETTINGS::REFERRAL:MODE') == 'both') {
-                    $ref_user->increment('credits', config('SETTINGS::REFERRAL::REWARD'));
+                if ($settings->referral->mode == 'sign-up' || $settings->referral->mode == 'both') {
+                    $ref_user->increment('credits', $settings->referral);
                     $ref_user->notify(new ReferralNotification($ref_user->id, $new_user));
 
                     //LOGS REFERRALS IN THE ACTIVITY LOG
                     activity()
                         ->performedOn($user)
                         ->causedBy($ref_user)
-                        ->log('gained '.config('SETTINGS::REFERRAL::REWARD').' '.config('SETTINGS::SYSTEM:CREDITS_DISPLAY_NAME').' for sign-up-referral of '.$user->name.' (ID:'.$user->id.')');
+                        ->log('gained '.$settings->referral.' '.$settings->system->credits_display_name.' for sign-up-referral of '.$user->name.' (ID:'.$user->id.')');
                 }
                 //INSERT INTO USER_REFERRALS TABLE
                 DB::table('user_referrals')->insert([
